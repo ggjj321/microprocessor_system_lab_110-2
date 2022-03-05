@@ -1,7 +1,6 @@
-# CROSS_COMPILE = aarch64-linux-gnu-
-# CXX = $(CROSS_COMPILE)g++
-# LD = $(CROSS_COMPILE)ld
-CXX = g++
+CROSS_COMPILE = aarch64-linux-gnu-
+CXX = $(CROSS_COMPILE)g++
+LD = $(CROSS_COMPILE)ld
 CXXFLAGS = -std=c++11
 OBJ = main.o circular_sector.o ellipse.o sort.o triangle.o
 SRC = main.cpp circular_sector.cpp ellipse.cpp sort.cpp triangle.cpp
