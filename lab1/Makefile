@@ -7,9 +7,9 @@ SRC = main.cpp circular_sector.cpp ellipse.cpp sort.cpp triangle.cpp
 EXE = tx2_exe
 all:$(EXE)
 $(EXE):$(OBJ)
-	$(CXX) -o $(EXE) $(OBJ)
-$(OBJ):$(SRC)
-	$(CXX) -c $(SRC)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJ)
+$(OBJ):$?
+	$(CXX) $(CXXFLAGS) -c $(SRC)
 clean:
 	rm -f $(EXE)
 	rm -f $(OBJ)
