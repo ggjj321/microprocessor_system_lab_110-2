@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
         if(input == "b") break;
 
         std::string space_delimiter = " ";
-        std::vector<std::string> words{};
+        std::vector<std::string> words;
         size_t pos = 0;
 
         while ((pos = input.find(space_delimiter)) != std::string::npos) {

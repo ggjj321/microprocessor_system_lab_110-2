@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string>
 #include<errno.h>
-// #include<unistd.h> // 在 linux 才找的到
+#include<unistd.h> // 在 linux 才找的到
 #include<fcntl.h>
 #include<iostream>
 int gpio_set_value(unsigned int gpio, int value)
@@ -12,7 +12,7 @@ int gpio_set_value(unsigned int gpio, int value)
 
     snprintf(buf, sizeof(buf),"/sys/class/gpio/gpio%d/value", gpio);
 
-    fd = open(buf, 0_WRONLY);
+    fd = open(buf, O_WRONLY);
     if(fd < 0) {
         perror("gpio/set-value");
         return fd;
