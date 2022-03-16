@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string>
 #include<errno.h>
-#include<unistd.h> // 在 linux 才找的到
+#include<unistd.h>
 #include<fcntl.h>
 #include<iostream>
 int gpio_unexport(unsigned int gpio)
