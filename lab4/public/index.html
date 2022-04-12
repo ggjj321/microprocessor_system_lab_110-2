@@ -5,59 +5,113 @@
         <meta name="viewport" content="width=\. initial-scale=1.0">
         <title>lab4</title>
     </head>
+
+    
+
     <body>
         <p>
             <h1>Nodejs</h1>
         </p>
         <hr>
-        <form action="/submit" method="get">
-            <p>
-                <h2>LED Control Panel</h1>
-            </p>
-            
-            <input type="checkbox" id="LED1" name="LED1" value="choose">
-            <label for="choose"> 
-                LED1
-            </label>
-    
-            <input type="checkbox" id="LED2" name="LED2" value="choose">
-            <label for="choose"> 
-                LED2
-            </label>
-            <br>
-    
-            <input type="checkbox" id="LED3" name="LED3" value="choose">
-            <label for="choose">
-                LED3
-            </label>
-    
-            <input type="checkbox" id="LED4" name="LED4" value="choose">
-                <label for="choose"> 
-                    LED4
-                </label>
-            <br>
-    
-            <br>
-            <input type="submit" value="Submit">
-               
-            <input type="radio" id="on" name="switch" value="ON">
-            <label for="on">ON</label>
-    
-            <input type="radio" id="off" name="switch" value="OFF">
-            <label for="off">OFF</label>
-        </form>       
         
-        <form action="shine" method="get">
-            <hr>
+        <p>
+            <h2>LED Control Panel</h1>
+        </p>
+        
+        <input type="checkbox" id="LED1" name="LED1" value="choose">
+        <label for="choose"> 
+            LED1
+        </label>
+
+        <input type="checkbox" id="LED2" name="LED2" value="choose">
+        <label for="choose"> 
+            LED2
+        </label>
+        <br>
+
+        <input type="checkbox" id="LED3" name="LED3" value="choose">
+        <label for="choose">
+            LED3
+        </label>
+
+        <input type="checkbox" id="LED4" name="LED4" value="choose">
+            <label for="choose"> 
+                LED4
+            </label>
+        <br>
+
+        <br>
+
+        <button type="button" onclick="submitGet()" id="submitButton" >Submit</button>
+           
+        <input type="radio" id="on" name="switch" value="ON">
+        <label for="on">ON</label>
+
+        <input type="radio" id="off" name="switch" value="OFF">
+        <label for="off">OFF</label>
+        
+        <p id="submitText"></p>  
+
+        <hr>
             <p>
                 <h2>LED Switch Frequency</h1>
             </p>
             <label>
-                <input type="text" name = "times">
+                <input type="text" id = "times">
             </label>
-            <hr>
-            <input type="submit" value="Mode_Shine">
-        </form> 
+        <hr>
 
+        <button type="button" onclick="modeShineGet()">Mode_Shine</button>
+        <p id="shineText"></p>    
     </body>
+
+    <script>
+
+        ledStat = ["off", "off", "off", "off"];
+
+        function submitGet() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function() {
+                innerText = "";
+                for(var i = 0; i < 4; i++){
+                    innerText += "LED" + (i+1) + " " + ledStat[i] + "<br>";
+                }
+                document.getElementById("submitText").innerHTML =innerText;
+            }
+
+            params = "";
+
+            if(document.getElementById("on").checked){
+                params += "switch=on";
+                stat = "on";
+            }else{
+                params += "switch=off";
+                stat = "off";
+            }
+
+            for(var index = 1; index < 5; index++){
+                if(document.getElementById(`LED${index}`).checked){
+                    params += `&LED${index}=choose`;
+                    ledStat[index - 1] = stat;
+                }
+            }
+  
+            url = "submit";
+
+            xhttp.open("GET", url+"?"+params, true);
+            xhttp.send();
+        }
+
+        function modeShineGet(){
+            const xhttp = new XMLHttpRequest();
+            times = document.getElementById("times").value;
+            xhttp.onload = function() {
+                document.getElementById("shineText").innerHTML = "Mode_Shine_Times:" + times;
+            }
+            params = "times=" + times;
+            xhttp.open("GET", "shine"+"?"+params, true);
+            xhttp.send();
+        }
+    </script>
+
 </html>

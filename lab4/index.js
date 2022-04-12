@@ -25,7 +25,7 @@ function ledSubmit(LED, POWER){
     // let child_pocess = require("child_process");
 
     // let process = child_pocess.execFile('sudo',[
-    //     "./C++/lab2", LED ,POWER
+    //     "./c++/lab2", LED ,POWER
     // ]);
 
     // process.stdout.on('data',(data) => {
@@ -47,7 +47,7 @@ function ledShine(times){
     // let child_pocess = require("child_process");
 
     // let process = child_pocess.execFile('sudo',[
-    //     "./C++/lab2", "Mode_Shine" ,times
+    //     "./c++/lab2", "Mode_Shine" ,times
     // ]);
 
     // process.stdout.on('data',(data) => {
