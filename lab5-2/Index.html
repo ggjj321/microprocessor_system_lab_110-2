@@ -1,0 +1,16 @@
+<script>
+    $("response").css("fontSize", 40);
+    setInterval(GetResult, 1000);
+    function GetResult() {
+    $.ajax({
+            type:"get",
+            url:"/index",
+            success:function (result) {
+                $('#response').text(result);
+            },
+            error: function() {
+                alert("error");
+            }
+        })    
+    }
+</script>

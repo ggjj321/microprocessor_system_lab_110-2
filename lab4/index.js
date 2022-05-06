@@ -22,19 +22,19 @@ function ledSubmit(LED, POWER){
     console.log(LED); // test
     console.log(POWER);
 
-    // let child_pocess = require("child_process");
+    let child_pocess = require("child_process");
 
-    // let process = child_pocess.execFile('sudo',[
-    //     "./c++/lab2", LED ,POWER
-    // ]);
+    let process = child_pocess.execFile('sudo',[
+        "./c++/L2program", LED ,POWER
+    ]);
 
-    // process.stdout.on('data',(data) => {
-    //     console.log(`stdout: ${data}`);
-    // })
+    process.stdout.on('data',(data) => {
+        console.log(`stdout: ${data}`);
+    })
 
-    // process.stdout.on('data',(data) => {
-    //     console.error(`stdout: ${data}`);
-    // })
+    process.stdout.on('data',(data) => {
+        console.error(`stdout: ${data}`);
+    })
 }
 app.get("/shine",(req,res)=>{
     ledShine(req.query.times);
@@ -44,19 +44,19 @@ app.get("/shine",(req,res)=>{
 function ledShine(times){
     console.log(times);
 
-    // let child_pocess = require("child_process");
+    let child_pocess = require("child_process");
 
-    // let process = child_pocess.execFile('sudo',[
-    //     "./c++/lab2", "Mode_Shine" ,times
-    // ]);
+    let process = child_pocess.execFile('sudo',[
+        "./c++/L2program", "Mode_Shine" ,times
+    ]);
 
-    // process.stdout.on('data',(data) => {
-    //     console.log(`stdout: ${data}`);
-    // })
+    process.stdout.on('data',(data) => {
+        console.log(`stdout: ${data}`);
+    })
 
-    // process.stdout.on('data',(data) => {
-    //     console.error(`stdout: ${data}`);
-    // })
+    process.stdout.on('data',(data) => {
+        console.error(`stdout: ${data}`);
+    })
 }
 
 const PORT = process.env.PORT || 8080;
