@@ -12,11 +12,8 @@
     </br>
         <input type="radio" id="no_detect" name="contact" value="no_detect">
         <label for="no_detect">No_detect</label>
- 
-
     </div>
     <button id="submit">Submit</button>
-    </div>
     </body>
 </html>
 
@@ -26,7 +23,8 @@
     var radios = document.getElementsByName('contact');
     var paragraph = document.getElementById("p");
     var paragraph2 = document.getElementById("p2");
-    var detect = document.getElementById("detect")
+    var detect = document.getElementById("detect");
+    var no_detect = document.getElementById("no_detect");
     var text = document.createTextNode("感測器偵測中");
     var adc = document.createTextNode("adc_value =  Value");
     for (var radio of radios)
@@ -36,6 +34,9 @@
             document.getElementById("p2").innerHTML = "";
             paragraph.appendChild(text);
             paragraph2.appendChild(adc);
+        }
+        if(radio.checked & no_detect.checked){
+            window.location.href = "index.html";
         }
     }
 }
