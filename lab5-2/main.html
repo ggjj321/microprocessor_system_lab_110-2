@@ -1,0 +1,42 @@
+<html>
+    <body>
+    <div id="container">
+    <h1>NODE JS</h1>
+    <br>
+    <p id="p">請選擇模式</p>
+    <br>
+    <p id="p2"></p>
+    <div>
+        <input type="radio" id="detect" name="contact" value="detect">
+        <label for="detect">Detect</label>
+    </br>
+        <input type="radio" id="no_detect" name="contact" value="no_detect">
+        <label for="no_detect">No_detect</label>
+ 
+
+    </div>
+    <button id="submit">Submit</button>
+    </div>
+    </body>
+</html>
+
+
+<script>
+    document.getElementById('submit').onclick = function() {
+    var radios = document.getElementsByName('contact');
+    var paragraph = document.getElementById("p");
+    var paragraph2 = document.getElementById("p2");
+    var detect = document.getElementById("detect")
+    var text = document.createTextNode("感測器偵測中");
+    var adc = document.createTextNode("adc_value =  Value");
+    for (var radio of radios)
+    {
+        if (radio.checked & detect.checked) {
+            document.getElementById("p").innerHTML = "";
+            document.getElementById("p2").innerHTML = "";
+            paragraph.appendChild(text);
+            paragraph2.appendChild(adc);
+        }
+    }
+}
+</script>
