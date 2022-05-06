@@ -8,12 +8,12 @@ function test() {
         ]);
         
         process.stdout.on('data', (data) => {
-            console.log('stdout : ${data}');
+            console.log(`stdout : ${data}`);
             resolve(data)
         });
 
         process.stderr.on('data', (data) => {
-            console.assert.error('stderr: ${data}');
+            console.assert.error(`stderr: ${data}`);
             reject(data)
         });
     })
