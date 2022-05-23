@@ -1,0 +1,1 @@
+cmd_/home/nvidia/microprocessor_system_lab_110-2/lab6-1/demo.mod := { echo  /home/nvidia/microprocessor_system_lab_110-2/lab6-1/demo.o;  echo; } > /home/nvidia/microprocessor_system_lab_110-2/lab6-1/demo.mod

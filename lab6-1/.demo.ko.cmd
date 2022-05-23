@@ -1,0 +1,1 @@
+cmd_/home/nvidia/microprocessor_system_lab_110-2/lab6-1/demo.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/nvidia/microprocessor_system_lab_110-2/lab6-1/demo.ko /home/nvidia/microprocessor_system_lab_110-2/lab6-1/demo.o /home/nvidia/microprocessor_system_lab_110-2/lab6-1/demo.mod.o;  true

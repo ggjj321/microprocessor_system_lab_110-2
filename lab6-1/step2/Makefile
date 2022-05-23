@@ -1,6 +1,6 @@
-obj-m :=hellod.o
+obj-m :=demo.o
 
-kernel_DIR := /usr/src/linux-headers-5.4.0-84-generic/
+kernel_DIR := /usr/src/linux-headers-5.4.0-110-generic/
 
 PWD := $(shell pwd)
 
