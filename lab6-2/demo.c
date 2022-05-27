@@ -11,11 +11,6 @@
 static int iCount = 0;
 static char userChar[100];
 
-static int led1State = 0;
-static int led2State = 0;
-static int led3State = 0;
-static int led4State = 0;
-
 static int led1Pin = 396;
 static int led2Pin = 397;
 static int led3Pin = 398;
@@ -31,8 +26,6 @@ int gpio_set_led_value(unsigned int gpio, int value)
 
     snprintf(buf, sizeof(buf),"/sys/class/gpio/gpio%d/value", gpio);
 
-    printk("set_led_buf: %s\n", buf);
-
     old_fs = get_fs();
     set_fs(get_ds());
 
@@ -47,53 +40,39 @@ int gpio_set_led_value(unsigned int gpio, int value)
     return 0;
 }
 
-int gpio_led_unexport(unsigned int gpio)
-{
-    struct file *fp;
-    loff_t pos = 0;
-    mm_segment_t old_fs;
-
-    char buf[64];
-
-    fp = filp_open("/sys/class/gpio/unexport", O_WRONLY, 0);
-
-    int len = snprintf(buf, sizeof(buf), "%d", gpio);
-    vfs_write(fp, buf, len, &pos);
-    filp_close(fp, NULL);
-    return 0;
-}
-
-int gpio_export(unsigned int gpio)
+int gpio_get_value(unsigned int gpio)
 {
     struct file *fp;
     loff_t pos = 0;
     mm_segment_t old_fs;
     char buf[64];
+    char value[10];
 
-    fp = filp_open("/sys/class/gpio/export", O_WRONLY, 0);
-
-    int len = snprintf(buf, sizeof(buf), "%d", gpio);
-    vfs_write(fp, buf, len, &pos);
-    filp_close(fp, NULL);
-    return 0;
-}
-
-int gpio_set_dir(unsigned int gpio)
-{
-    struct file *fp;
-    loff_t pos = 0;
-    mm_segment_t old_fs;
-    char buf[64];
-
-    snprintf(buf, sizeof(buf),"/sys/class/gpio/gpio%d/direction", gpio);
+    snprintf(buf, sizeof(buf),"/sys/class/gpio/gpio%d/value", gpio);
 
     fp = filp_open(buf, O_WRONLY, 0);
 
-    vfs_write(fp, "out", 4, &pos);
+    vfs_read(fp, value, 2, &pos);
 
-    filp_close(fp, NULL);
-    return 0;
+    printk("input: %d\n", gpio);
+
+    if(gpio == led1Pin){
+        printk("LED1(GPIO=%d) Status : %s", gpio, value);
+    }
+
+    if(gpio == led2Pin){
+        printk("LED2(GPIO=%d) Status : %s", gpio, value);
+    }
+
+    if(gpio == led3Pin){
+        printk("LED3(GPIO=%d) Status : %s", gpio, value);
+    }
+
+    if(gpio == led4Pin){
+        printk("LED1(GPIO=%d) Status : %s", gpio, value);
+    }
 }
+
 
 static ssize_t drv_read(struct file *filp, char *buf, size_t count, loff_t *ppos) {
     printk("device read\n");
@@ -102,38 +81,90 @@ static ssize_t drv_read(struct file *filp, char *buf, size_t count, loff_t *ppos
     copy_from_user(userChar, buf, count);
     userChar[count - 1] = 0;
 
-    int led = (int) userChar[0];
+    int led = (int) userChar[0] - 48;
+
+    if(led == 1) {
+        printk("userChar: %s\n", led1Pin);
+        printk("Read-Value: %s\n", led4Pin);
+    }
+    
+
+    if(led == 2) {
+        printk("userChar: %s\n", led2Pin);
+        printk("Read-Value: %s\n", led4Pin);
+    }
+
+    if(led == 3) {
+        printk("userChar: %s\n", led3Pin);
+        printk("Read-Value: %s\n", led4Pin);
+    }
+
+    if(led == 4) {
+        printk("userChar: %s\n", led4Pin);
+        printk("Read-Value: %s\n", led4Pin);
+    }
 	return 0;
 }
 
 static ssize_t drv_write(struct file *filp, const char *buf, size_t count, loff_t *ppos) {
-    printk("Enter Write function\n");
+    printk("Write: %s\n", "Enter Write function");
     printk("device write\n");
     printk("%d\n", iCount);
-    printk("W_buf_size: %d\n", (int)count);
+
+    int len = (int)count;
+    printk("W_buf_size: %d\n", len);
 
     copy_from_user(userChar, buf, count);
 
     userChar[count - 1] = 0;
 
-    printk("userChar: %s\n", userChar);
-
     int led = (int) userChar[0] - 48;
-    int state = (int) userChar[1] - 48;
 
-    printk("led1: %d %d", led, state);
+    if(len == 2){
+        if(led == 1) {
+            printk("userChar: %d\n", led1Pin);
+            gpio_get_value(led1Pin);
+        }
 
-    if(led == 1) {
-        printk("led1: %d %d", led, state);
-        gpio_set_led_value(led1Pin, state);
+        if(led == 2) {
+            printk("userChar: %d\n", led2Pin);
+            gpio_get_value(led2Pin);
+        }
+
+        if(led == 3) {
+            printk("userChar: %d\n", led4Pin);
+            gpio_get_value(led3Pin);
+        }
+
+        if(led == 4) {
+            printk("userChar: %d\n", led4Pin);
+            gpio_get_value(led4Pin);
+        }
     }
-    
 
-    if(led == 2) gpio_set_led_value(led2Pin, state);
+    if(len == 3){
+        int state = (int) userChar[1] - 48;
 
-    if(led == 3) gpio_set_led_value(led3Pin, state);
+        if(led == 1) {
+            printk("userChar: %d\n", led1Pin);
+            gpio_set_led_value(led1Pin, state);
+        }
+        
+        if(led == 2) {
+            printk("userChar: %d\n", led2Pin);
+            gpio_set_led_value(led2Pin, state);
+        }
 
-    if(led == 4) gpio_set_led_value(led4Pin, state);
+        if(led == 3) {
+            printk("userChar: %d\n", led3Pin);
+            gpio_set_led_value(led3Pin, state);
+        }
+
+        if(led == 4) {
+            printk("userChar: %d\n", led4Pin);
+            gpio_set_led_value(led4Pin, state);
+        }
+    }
 
     iCount++;
     return count;
@@ -146,13 +177,13 @@ long drv_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
 }
 
 static int drv_open(struct inode *inode, struct file *filp) {
-    printk("Enter Open function\n");
+    printk("Open: %s\n", "Enter Open function");
     printk("device open\n");
     return 0;
 }
 
 static int drv_release(struct inode *inode, struct file *filp) {
-    printk("Enter Release function\n");
+    printk("Release: %s\n", "Enter Release function");
     printk("device close\n");
     return 0;
 }
@@ -173,28 +204,12 @@ static int demo_init(void) {
         return (-EBUSY);
     }
     printk("<1>%s: started\n", MODULE_NAME);
-
-    // gpio_export(led1Pin);
-    // gpio_export(led2Pin);
-    // gpio_export(led3Pin);
-    // gpio_export(led4Pin);
-
-    // gpio_set_dir(led1Pin);
-    // gpio_set_dir(led2Pin);
-    // gpio_set_dir(led3Pin);
-    // gpio_set_dir(led4Pin);
-
     return 0;
 }
 
 static void demo_exit(void) {
     unregister_chrdev(MAJOR_NUM, "demo");
     printk("<1>%s: removed\n", MODULE_NAME);
-
-    // gpio_led_unexport(led1Pin);
-    // gpio_led_unexport(led2Pin);
-    // gpio_led_unexport(led3Pin);
-    // gpio_led_unexport(led4Pin);
 }
 
 module_init(demo_init);
