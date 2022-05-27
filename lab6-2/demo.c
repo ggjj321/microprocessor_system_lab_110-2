@@ -75,8 +75,8 @@ int gpio_get_value(unsigned int gpio)
 
 
 static ssize_t drv_read(struct file *filp, char *buf, size_t count, loff_t *ppos) {
+    printk("Read: %s\n", "Enter Read function");
     printk("device read\n");
-    printk("Enter Read function\n");
 
     copy_from_user(userChar, buf, count);
     userChar[count - 1] = 0;
@@ -84,24 +84,24 @@ static ssize_t drv_read(struct file *filp, char *buf, size_t count, loff_t *ppos
     int led = (int) userChar[0] - 48;
 
     if(led == 1) {
-        printk("userChar: %s\n", led1Pin);
-        printk("Read-Value: %s\n", led4Pin);
+        printk("userChar: %d\n", led1Pin);
+        printk("Read-Value: %d\n", led1Pin);
     }
     
 
     if(led == 2) {
-        printk("userChar: %s\n", led2Pin);
-        printk("Read-Value: %s\n", led4Pin);
+        printk("userChar: %d\n", led2Pin);
+        printk("Read-Value: %d\n", led2Pin);
     }
 
     if(led == 3) {
-        printk("userChar: %s\n", led3Pin);
-        printk("Read-Value: %s\n", led4Pin);
+        printk("userChar: %d\n", led3Pin);
+        printk("Read-Value: %d\n", led3Pin);
     }
 
     if(led == 4) {
-        printk("userChar: %s\n", led4Pin);
-        printk("Read-Value: %s\n", led4Pin);
+        printk("userChar: %d\n", led4Pin);
+        printk("Read-Value: %d\n", led4Pin);
     }
 	return 0;
 }
@@ -172,7 +172,7 @@ static ssize_t drv_write(struct file *filp, const char *buf, size_t count, loff_
 
 
 long drv_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
-    printk("Enter I/O Control function\n");
+    printk("I/O Control: %s\n", "Enter I/O Control function");
     printk("device ioctl\n");
 }
 

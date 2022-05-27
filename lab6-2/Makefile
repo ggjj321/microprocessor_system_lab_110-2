@@ -7,8 +7,9 @@ PWD := $(shell pwd)
 all:
 	g++ -o lab6 test.cpp	
 	make -C $(kernel_DIR) SUBDIRS=$(PWD)
+	sudo insmod demo.ko
 clean:
-	rm *.o *.ko *.mod.c
+	sudo rmmod demo.ko
 
 .PHONY:
 	clean

@@ -29,12 +29,12 @@ void readGPIO(unsigned int gpio){
     ifs.close();
     return;
 }
-void setGPIO(unsigned int gpio, string status){
+int setGPIO(unsigned int gpio, string status){
     int io;
-    io = open("/dev/demo", O_WRONLY);
-    if(io < 0){
-        perror("gpio error");
-        return;
+    FILE *fp = fopen("/dev/demo", "w+");
+    if(fp == NULL) {
+        printf("can't open device!\n");
+        return 0;
     }
     char buf[3];
     if(status =="on"){
@@ -43,10 +43,10 @@ void setGPIO(unsigned int gpio, string status){
     else{
         strcpy(buf, (to_string(gpio) + "0").c_str());
     }
-    write(io, buf, 3);
-    read(io, buf, 3);
-    close(io);
-    return;
+    fwrite(buf, sizeof(buf), 1, fp); //write
+    fread(buf, sizeof(buf), 1, fp); //read
+    fclose(fp);
+    return 0;
 }
 
 int main(int argc, char *argv[]){
