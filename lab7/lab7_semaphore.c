@@ -42,7 +42,8 @@ void* status(){
             printf("Status: %s\n", statusList);
         } else {
             printf("Status: %s\n", negativeList);
-        }   
+        }  
+        sem_post(&semaphore);
         sleep(1); 
     }
 
@@ -57,6 +58,7 @@ void* led_1() {
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
+        sem_post(&semaphore);
         sleep(1);
     }
 
@@ -71,6 +73,7 @@ void* led_2() {
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
+        sem_post(&semaphore);
         sleep(1);
     }
 
@@ -85,6 +88,7 @@ void* led_3() {
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
+        sem_post(&semaphore);
         sleep(1);
     }
 
@@ -99,6 +103,7 @@ void* led_4() {
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
+        sem_post(&semaphore);
         sleep(1);
     }
 
@@ -126,11 +131,9 @@ int main(int argc, char *argv[]) {
     pthread_create(&pthreadList[3], NULL, led_3, NULL);
     pthread_create(&pthreadList[4], NULL, led_4, NULL);
 
-    for (int i = 0; i < times * 2; i++) {
-        for (int j = 0; j < 5; j++) {
-            sem_post(&semaphore);
-        }  
-    }
+    for (int j = 0; j < 5; j++) {
+        sem_post(&semaphore);
+    } 
 
     for (int i = 0; i < 4; i++) {
         gpio_set_value(gpioPin[i], 0);
