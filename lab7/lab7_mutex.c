@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <semaphore.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
 
-sem_t semaphore;
+pthread_mutex_t mutex;
 
 int gpioPin[4] = { 396, 397, 398, 254 };
 char statusList[5];
@@ -37,13 +36,13 @@ int gpio_set_value(unsigned int gpio, int value)
 
 void* status(){
     for (int i = 0; i < times * 2; i++) {
-        sem_wait(&semaphore);
+        pthread_mutex_lock(&mutex);
         if (i % 2 == 0) {
             printf("Status: %s\n", statusList);
         } else {
             printf("Status: %s\n", negativeList);
         }  
-        sem_post(&semaphore);
+        pthread_mutex_unlock(&mutex);
         sleep(1); 
     }
 
@@ -54,11 +53,11 @@ void* led_1() {
     int gpio = 396;
     int value = statusList[0] - '0';
     for (int i = 0; i < times * 2; i++) {
-        sem_wait(&semaphore);
+        pthread_mutex_lock(&mutex);
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
-        sem_post(&semaphore);
+        pthread_mutex_unlock(&mutex);
         sleep(1);
     }
 
@@ -69,11 +68,11 @@ void* led_2() {
     int gpio = 397;
     int value = statusList[1] - '0';
     for (int i = 0; i < times * 2; i++) {
-        sem_wait(&semaphore);
+        pthread_mutex_lock(&mutex);
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
-        sem_post(&semaphore);
+        pthread_mutex_unlock(&mutex);
         sleep(1);
     }
 
@@ -84,11 +83,11 @@ void* led_3() {
     int gpio = 398;
     int value = statusList[2] - '0';
     for (int i = 0; i < times * 2; i++) {
-        sem_wait(&semaphore);
+        pthread_mutex_lock(&mutex);
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
-        sem_post(&semaphore);
+        pthread_mutex_unlock(&mutex);
         sleep(1);
     }
 
@@ -99,11 +98,11 @@ void* led_4() {
     int gpio = 254;
     int value = statusList[3] - '0';
     for (int i = 0; i < times * 2; i++) {
-        sem_wait(&semaphore);
+        pthread_mutex_lock(&mutex);
         gpio_set_value(gpio, value);
         printf("GPIO: %d status: %d\n", gpio, value);
         value = (value + 1) % 2;
-        sem_post(&semaphore);
+        pthread_mutex_unlock(&mutex);
         sleep(1);
     }
 
@@ -122,7 +121,7 @@ int main(int argc, char *argv[]) {
 
     times = argv[2][0] - '0';
 
-    sem_init(&semaphore, 0, 0);
+    pthread_mutex_init(&mutex, 0);
 
     pthread_t pthreadList[5];
     pthread_create(&pthreadList[0], NULL, status, NULL);
@@ -131,10 +130,6 @@ int main(int argc, char *argv[]) {
     pthread_create(&pthreadList[3], NULL, led_3, NULL);
     pthread_create(&pthreadList[4], NULL, led_4, NULL);
 
-    for (int j = 0; j < 5; j++) {
-        sem_post(&semaphore);
-    } 
-
     for (int i = 0; i < 4; i++) {
         gpio_set_value(gpioPin[i], 0);
     }
@@ -142,6 +137,8 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < 5; i++) {
         pthread_join(pthreadList[i], NULL);
     }
+
+    pthread_mutex_destroy(&mutex);
 
     return 0;
 }
