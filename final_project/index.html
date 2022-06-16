@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Smart home dashboard controller UI</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="dashboard">
+  <header>
+    <div class="f fe">
+      <div class="icon icon-w"></div>
+      <div class="heading">
+        <h5 class="date">24 June 2022</h5>
+        <h2 class="title">Cloudy</h2>
+      </div>
+    </div>
+    
+    <div class="weather f">
+      <div>
+        <strong>26°<sup>C</sup></strong>
+        <p>Indoor Temp.</p>
+      </div>
+      <div>
+        <strong>48.2%</strong>
+        <p>Outdoor Humidity</p>
+      </div>
+      <div>
+        <strong>52.99</strong>
+        <p>Indoor Temp.</p>
+      </div>
+    </div>
+  </header>
+  <section>
+    <div class="category">
+      <ul>
+        <li><a  class="active">SMART HOME</a></li>
+        <li><a href="index2.html" >LED CONTROL</a></li>
+      </ul>
+    </div>
+
+  <!-- 下面開始才要看，上面都不用 -->
+    <div class="appliances">
+      <div class="appliance">
+        <input type="checkbox" name="a" id="a">
+        <label for="a">
+          <i class="l"></i>
+          <strong>Lamp</strong>
+          <span data-o="opened" data-c="closed"></span>
+          <small></small>
+        </label>
+      </div>
+      
+      <div class="appliance">
+        <input type="checkbox" id="detect" name="contact" value="detect" onclick="myFunction(); sendEmail()">
+        <label for="detect">
+          <i class="r"></i>
+          <strong>Detect</strong>
+          <span data-o="opened" data-c="closed"></span>
+          
+          <p id="p2" style="font-size: smaller; display:none;">ADC_VALUE = </p>
+        </label>
+      </div>
+      
+      <div class="appliance">
+        <input type="checkbox" name="a" id="c">
+        <label for="c">
+          <i class="a"></i>
+          <strong>Air</strong>
+          <span data-o="opened" data-c="closed"></span>
+          <small></small>
+        </label>
+      </div>
+      
+      <div class="appliance">
+        <input type="checkbox" name="a" id="d">
+        <label for="d">
+          <i class="f"></i>
+          <strong>Fridge</strong>
+          <span data-o="opened" data-c="closed"></span>
+          <small></small>
+        </label>
+      </div>    
+    </div>
+  </section>
+</div>
+
+<script src="script.js"></script>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+
+</body>
+</html>
+
+

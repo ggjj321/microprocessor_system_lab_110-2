@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Smart home dashboard controller UI</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="style2.css">
+
+</head>
+<body>
+<div class="dashboard">
+  <header>
+    <div class="f fe">
+      <div class="icon icon-w"></div>
+      <div class="heading">
+        <h5 class="date">24 June 2022</h5>
+        <h2 class="title">Cloudy</h2>
+      </div>
+    </div>
+    
+    <div class="weather f">
+      <div>
+        <strong>26°<sup>C</sup></strong>
+        <p>Indoor Temp.</p>
+      </div>
+      <div>
+        <strong>48.2%</strong>
+        <p>Outdoor Humidity</p>
+      </div>
+      <div>
+        <strong>52.99</strong>
+        <p>Indoor Temp.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 下面開始才要看，上面都不用 -->
+  
+  <div class="category">
+    <ul>
+      <li><a href="index.html" >SMART HOME</a></li>
+      <li><a class="active">LED CONTROL</a></li>
+    </ul>
+  </div>
+  <div id = "led" style = 'text-align:center'>
+    <input type="checkbox" id="LED1" name="LED1" value="choose" style = "margin-top: 30px;">
+    <label for="choose">LED1</label>
+    <input type="checkbox" id="LED2" name="LED2" value="choose">
+    <label for="choose">LED2</label>
+    <br>
+    <br>
+    <button class= "btn" type="button" onclick="submitGet()"  id="submitButton" style = "margin-bottom: 15px;" >Submit</button>
+    <br>
+    <input type="radio" id="on" name="switch" value="ON" checked>
+    <label for="on">ON</label>
+    <input type="radio" id="off" name="switch" value="OFF">
+    <label for="off">OFF</label>
+    <br>
+    <p id="p2" style="font-size: smaller;"></p>
+    <p id="submitText"></p>  
+  </div>
+
+  <hr>
+
+  <div id = 'content' style = 'text-align:center'>
+    <h2 style ="text-align:center">LED Switch Frequency</h2>
+    <input type="text" id = "times"  >
+
+    <div class="range-input">
+      <input type="range" onclick="rangeBar()"  min='0' max = "100" value="0" step="1">
+      <div class="value">
+          <div></div>
+      </div>
+    </div> 
+  </div>
+    
+  <div id = "thread" style = 'text-align:center'>
+    <button type="button" onclick="submitGet()" id="mutexButton" >Mutex</button>
+    <button type="button" onclick="submitGet()" id="semaphoreButton" >Semaphore</button>
+    <br>
+    <button class= "btn";type="button" onclick="modeShineGet()" style="margin-top: 10px;">Submit</button>
+
+      <input type="radio" id="detect" name="contact" value="detect">
+      <label for="detect">Detect</label>
+
+      <input type="radio" id="no_detect" name="contact" value="no_detect">
+      <label for="no_detect">No_detect</label>
+
+  </div>
+  
+</div>
+  
+</body>
+</html>
+
+<script  src="script2.js"></script>
