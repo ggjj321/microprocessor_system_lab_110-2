@@ -1,17 +1,8 @@
 ledStat = ["off", "off", "off", "off"];
 
 function submitGet() {
-
-    showText();
-
     const xhttp = new XMLHttpRequest();
-    xhttp.onload = function() {
-        innerText = "";
-        for(var i = 0; i < 4; i++){
-            innerText += "LED" + (i+1) + " " + ledStat[i] + "<br>";
-        }
-        document.getElementById("submitText").innerHTML =innerText;
-    }
+    xhttp.onload = function() {}
 
     params = "";
 
@@ -23,7 +14,7 @@ function submitGet() {
         stat = "off";
     }
 
-    for(var index = 1; index < 5; index++){
+    for(var index = 1; index < 3; index++){
         if(document.getElementById(`LED${index}`).checked){
             params += `&LED${index}=choose`;
             ledStat[index - 1] = stat;
@@ -33,6 +24,24 @@ function submitGet() {
     url = "submit";
 
     xhttp.open("GET", url+"?"+params, true);
+    xhttp.send();
+
+    document.getElementById('p2').innerText = `LED1 = ${ledStat[0]} , LED2 = ${ledStat[1]}`;
+}
+
+function submitMutex(){
+    const xhttp = new XMLHttpRequest();
+    times = document.getElementById("times").value;
+    frequent = document.getElementById("frequent").value
+    xhttp.open("GET", "mutex?times=" + times + "&frequent=" + frequent, true);
+    xhttp.send();
+}
+
+function submitSemphore(){
+    const xhttp = new XMLHttpRequest();
+    times = document.getElementById("times").value;
+    frequent = document.getElementById("frequent").value
+    xhttp.open("GET", "semphore?times=" + times + "&frequent=" + frequent, true);
     xhttp.send();
 }
 
@@ -65,22 +74,17 @@ function rangeBar(){
     });
 }
 
-function showText() {
-    var text = document.getElementById("p2");
-    var checkBox1 = document.getElementById("LED1");
-    var checkBox2 = document.getElementById("LED2");
-    if (checkBox1.checked == true && checkBox2.checked == true){
-        document.getElementById('p2').innerText = "LED1 = ON , LED2 = ON"
-    } 
-    else if (checkBox1.checked == true && checkBox2.checked == false){
-        document.getElementById('p2').innerText = "LED1 = ON , LED2 = OFF"
+function modeDetect() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {}
+
+    if(document.getElementById("detect").checked){
+        xhttp.open("GET", "mode?detect=yes", true);
+        xhttp.send();  
+    }else if (document.getElementById("no_detect").checked){
+        xhttp.open("GET", "mode?detect=no", true);
+        xhttp.send(); 
     }
-    else if (checkBox1.checked == false && checkBox2.checked == false){
-        document.getElementById('p2').innerText = "LED1 = OFF , LED2 = OFF"
-    }
-    else if (checkBox1.checked == false && checkBox2.checked == true){
-        document.getElementById('p2').innerText = "LED1 = OFF , LED2 = ON"
-    }
-    
-  }
+}
+
 
